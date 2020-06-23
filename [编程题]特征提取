@@ -1,0 +1,39 @@
+#include<iostream>
+#include<utility>
+#include<map>
+#include<algorithm>
+#include<cmath>
+using namespace std;
+
+typedef pair<int, int> PII;
+
+int main() {
+	int n, m, k;
+	PII feature;
+	cin >> n;
+	while (n--) {
+		int ans = 0;
+		cin >> m;
+		map<PII, int>curFeatures, preFeatures;
+		for (int i = 0; i < m; i++) {
+			cin >> k;
+			while (k--) {
+				cin >> feature.first >> feature.second;
+        //该特征如果在上一帧图片里出现过，再出现时值为之前的值加1
+				if (preFeatures.count(feature) > 0)
+					curFeatures[feature] = preFeatures[feature]+1;
+				else
+				{//否则的话该特征的值为1
+					curFeatures[feature] = 1;
+				}
+        //比较，获得特征的最大值
+				ans = max(ans, curFeatures[feature]);
+			}
+      //这里学习了网上的方法，达到保存当前特征字典并清空的功能
+			preFeatures.clear();
+			preFeatures.swap(curFeatures);
+		}
+		cout << ans;
+	}
+	return 0;
+}
